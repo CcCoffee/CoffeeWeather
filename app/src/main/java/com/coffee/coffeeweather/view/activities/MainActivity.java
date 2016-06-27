@@ -21,9 +21,10 @@ import android.view.Window;
 import com.coffee.coffeeweather.API.entities.Forecast;
 import com.coffee.coffeeweather.R;
 import com.coffee.coffeeweather.WeatherApplication;
-import com.coffee.coffeeweather.config.SprefConfig;
 import com.coffee.coffeeweather.database.Dao.CityDao;
 import com.coffee.coffeeweather.models.HotCity;
+import com.coffee.coffeeweather.preferences.Preferences;
+import com.coffee.coffeeweather.preferences.WeatherSetting;
 import com.coffee.coffeeweather.utils.UiUtils;
 import com.coffee.coffeeweather.view.adapters.MyRvAdapter;
 import com.coffee.coffeeweather.contract.HomePageContract;
@@ -65,13 +66,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             UiUtils.toast(this,"文件大小:"+databaseFile.length());
         }
 
-        SharedPreferences sharedPreferences = getSharedPreferences(SprefConfig.APP_CONFIG, MODE_PRIVATE);
+        int currentCity = Preferences.getSharedPreferences().getInt(WeatherSetting.SETTINGS_CURRENT_CITY_ID.getId(), 101010100);
+
+//        SharedPreferences sharedPreferences = getSharedPreferences(Preferences.PREF_NAME, MODE_PRIVATE);
 //        String currentCity = sharedPreferences.getString("current_city_name", "汕头");
-        String currentCity = sharedPreferences.getInt("current_city_id",101010100)+"";
+//        String currentCity = sharedPreferences.getInt("current_city_id",101010100)+"";
 
         //拿到presenter实例
         mHomePagePresenter = new HomePagePresenter(this);
-        mHomePagePresenter.loadData(currentCity);
+        mHomePagePresenter.loadData(currentCity+"");
 
         List<HotCity> hotCities = new CityDao(this).queryAllHotCity();
         Log.e("DataBase",hotCities.toString());
@@ -136,7 +139,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode==SelectCityActivity.CURRENT_CITY){
-            int cityId = data.getIntExtra("current_city_id",101010100);
+            int cityId = data.getIntExtra(WeatherSetting.SETTINGS_CURRENT_CITY_ID.getId(),101010100);
             mHomePagePresenter.loadData(cityId+"");
         }
 

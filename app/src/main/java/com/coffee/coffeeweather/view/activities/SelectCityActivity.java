@@ -13,21 +13,24 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import android.view.View;
 
 import com.coffee.coffeeweather.R;
-import com.coffee.coffeeweather.config.SprefConfig;
 import com.coffee.coffeeweather.contract.SelectCityContract;
 import com.coffee.coffeeweather.models.City;
+import com.coffee.coffeeweather.preferences.Preferences;
+import com.coffee.coffeeweather.preferences.WeatherSetting;
 import com.coffee.coffeeweather.presenter.SelectCityPresenter;
 import com.coffee.coffeeweather.utils.UiUtils;
 import com.coffee.coffeeweather.view.adapters.SelectCityAdapter;
 import com.coffee.library.activity.BaseActivity;
 import com.jakewharton.rxbinding.support.v7.widget.RxSearchView;
 
+import java.io.InvalidClassException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -76,19 +79,26 @@ public class SelectCityActivity extends BaseActivity implements SelectCityContra
             @Override
             public void onItemClick(View view, int position) {
                 UiUtils.toast(SelectCityActivity.this,mAdapter.getCurrentCities().get(position).getName());
-                SharedPreferences sPref = getSharedPreferences(SprefConfig.APP_CONFIG, MODE_PRIVATE);
-                sPref.edit().putInt("current_city_id",mAdapter.getCurrentCities().get(position).getPosID())
-                   .putString("current_city_name",mAdapter.getCurrentCities().get(position).getCity())
-                   .commit();
+
+                try {
+                    Preferences.savePreference(WeatherSetting.SETTINGS_CURRENT_CITY_ID,mAdapter.getCurrentCities().get(position).getPosID());
+
+                } catch (InvalidClassException e) {
+                    e.printStackTrace();
+                }
+
+//                SharedPreferences sPref = getSharedPreferences(Preferences.PREF_NAME, MODE_PRIVATE);
+//                sPref.edit().putInt("current_city_id",mAdapter.getCurrentCities().get(position).getPosID())
+//                   .putString("current_city_name",mAdapter.getCurrentCities().get(position).getCity())
+//                   .commit();
+
                 Intent resultIntent = new Intent();
-                resultIntent.putExtra("current_city_id",mAdapter.getCurrentCities().get(position).getPosID());
-                resultIntent.putExtra("current_city_name",mAdapter.getCurrentCities().get(position).getCity());
+                resultIntent.putExtra(WeatherSetting.SETTINGS_CURRENT_CITY_ID.getId(),mAdapter.getCurrentCities().get(position).getPosID());
+//                resultIntent.putExtra("current_city_name",mAdapter.getCurrentCities().get(position).getCity());
                 setResult(CURRENT_CITY,resultIntent);
                 finish();
             }
         });
-
-
     }
 
     private void initToolBar() {
