@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">CoffeeWeather</string>
+    <string name="search_hint">请输入</string>
+
+    <string name="open_drawer">打开抽屉</string>
+
+    <string name="close_drawer">关闭抽屉</string>
+</resources>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <group android:checkableBehavior="single">
+            <item
+                android:id="@+id/navigation_camera"
+                android:checked="true"
+                android:icon="@drawable/ic_menu_camera"
+                android:title="拍照"/>
+
+            <item
+                android:id="@+id/navigation_gallery"
+                android:checked="false"
+                android:icon="@drawable/ic_menu_gallery"
+                android:title="图库"/>
+            <item
+                android:id="@+id/navigation_manage"
+                android:checked="false"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="设置"/>
+
+
+            <item
+                android:id="@+id/navigation_slideshow"
+                android:checked="false"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="幻灯片"/>
+
+            <item android:id="@+id/group2"
+                  android:title="社交">
+                <menu >
+                    <item
+                        android:id="@+id/navigation_send"
+                        android:checked="false"
+                        android:icon="@drawable/ic_menu_send"
+                        android:title="发送"/>
+
+                    <item
+                        android:id="@+id/navigation_share"
+                        android:checked="false"
+                        android:icon="@drawable/ic_menu_share"
+                        android:title="分享"/>
+
+                </menu>
+
+            </item>
+
+    </group>
+</menu>
