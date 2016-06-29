@@ -76,8 +76,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mHomePagePresenter = new HomePagePresenter(this);
         mHomePagePresenter.loadData(currentCity+"");
 
-        List<HotCity> hotCities = new CityDao(this).queryAllHotCity();
-        Log.e("DataBase",hotCities.toString());
+//        List<HotCity> hotCities = new CityDao(this).queryAllHotCity();
+//        Log.e("DataBase",hotCities.toString());
 
     }
 
